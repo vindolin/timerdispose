@@ -10,7 +10,7 @@ class TimerWidget extends StatefulWidget {
   State<TimerWidget> createState() => _TimerWidgetState();
 }
 
-class _TimerWidgetState extends State<TimerWidget> {
+class _TimerWidgetState extends State<TimerWidget> with WidgetsBindingObserver {
   int counter = 0;
   Timer? timer;
 
@@ -26,20 +26,29 @@ class _TimerWidgetState extends State<TimerWidget> {
 
   @override
   void initState() {
+    print('TimerWidget initState()');
     startTimer();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
-    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     print('TimerWidget dispose()');
     timer?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     print('TimerWidget build():  $counter');
     return Text('TimerWidget: $counter');
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    /// why doesn't this get called?
+    print('TimerWidget didChangeAppLifecycleState(): $state');
   }
 }

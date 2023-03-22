@@ -12,7 +12,12 @@ class OtherPage extends StatelessWidget {
         leading: BackButton(
           /// we have to build our own back button because pushReplacement() did override the history stack
           /// when the last page used push() to navigate to this page, the back button will stay on the app bar after this page is popped :(
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MyHomePage(),
+            ),
+          ),
         ),
       ),
       body: const Center(
